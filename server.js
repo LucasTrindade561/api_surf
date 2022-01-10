@@ -1,6 +1,6 @@
 import app from './app';
 
-const port = 3005;
+const port = 3007;
 app.listen(port, () => {
   console.log();
   console.log(`Escutando na porta: $${port}`);

@@ -9,7 +9,7 @@ import express from 'express';
 import homeRoutes from './src/routes/homeRoutes';
 import userRoutes from './src/routes/userRoutes';
 import tokenRoutes from './src/routes/tokenRoutes';
-import alunoRoutes from './src/routes/alunoRoutes';
+// import athletesRoutes from './src/routes/athletesRoutes'; // athletes
 import fotoRoutes from './src/routes/fotoRoutes';
 
 class App {
@@ -29,7 +29,7 @@ class App {
     this.app.use('/', homeRoutes);
     this.app.use('/users/', userRoutes);
     this.app.use('/tokens/', tokenRoutes);
-    this.app.use('/alunos/', alunoRoutes);
+    // this.app.use('/alunos/', athletesRoutes); // athletes
     this.app.use('/fotos/', fotoRoutes);
   }
 }
