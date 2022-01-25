@@ -3,9 +3,13 @@ import User from '../models/User';
 class UserController {
   async store(req, res) {
     try {
-      const novoUser = await User.create(req.body);
-      const { id, nome, email } = novoUser;
-      return res.json({ id, nome, email });
+      const newUser = await User.create(req.body);
+      const {
+        id, name, email, lastname,
+      } = newUser;
+      return res.json({
+        id, name, lastname, email,
+      });
     } catch (e) {
       return res.status(400).json({
         errors: e.errors.map((err) => err.message),
@@ -13,42 +17,47 @@ class UserController {
     }
   }
 
-  // Index --- listando todos os usuarios
   async index(req, res) {
     try {
-      const users = await User.findAll({ attributes: ['id', 'nome', 'email'] }); // Encontrar todos os usuarios na base de dados
+      const users = await User.findAll({ attributes: ['id', 'name', 'lastname', 'email'] });
       return res.json(users);
     } catch (e) {
       return res.json(null);
     }
   }
 
-  // Show --- listando apenas um usuario
   async show(req, res) {
     try {
-      const user = await User.findByPk(req.params.id); // Estamos achando pela a primary key
+      const user = await User.findByPk(req.userId);
 
-      const { id, nome, email } = user;
-      return res.json({ id, nome, email });
+      const {
+        id, name, lastname, email,
+      } = user;
+      return res.json({
+        id, name, lastname, email,
+      });
     } catch (e) {
       return res.json(null);
     }
   }
 
-  // Update --- atualizar o usuario
   async update(req, res) {
     try {
-      const user = await User.findByPk(req.userId); // vai retonar um usuario da base de dado
+      const user = await User.findByPk(req.userId);
 
       if (!user) {
         return res.status(400).json({
-          errors: ['Usuario não existe'],
+          errors: ['There is no user.'],
         });
       }
 
-      const novoDados = await user.update(req.body);
-      const { id, nome, email } = novoDados;
-      return res.json({ id, nome, email });
+      const newUser = await user.update(req.body);
+      const {
+        id, name, lastname, email,
+      } = newUser;
+      return res.json({
+        id, name, lastname, email,
+      });
     } catch (e) {
       return res.status(400).json({
         errors: e.errors.map((err) => err.message),
@@ -56,25 +65,18 @@ class UserController {
     }
   }
 
-  // Delete
   async delete(req, res) {
     try {
       const user = await User.findByPk(req.userId);
 
       if (!user) {
         return res.status(400).json({
-          errors: ['Usuario não existe'],
-        });
-      }
-
-      if (!user) {
-        return res.status(400).json({
-          errors: ['Usuario não existe'],
+          errors: ['There is no User'],
         });
       }
 
       await user.destroy();
-      return res.json('Usuario apagado com sucesso');
+      return res.json('User deleted successfully');
     } catch (e) {
       return res.status(400).json({
         errors: e.errors.map((err) => err.message),

@@ -4,25 +4,34 @@ import bcryptjs from 'bcryptjs';
 export default class User extends Model {
   static init(sequelize) {
     super.init({
-      nome: {
+      name: {
         type: Sequelize.STRING,
         defaultValue: '',
         validate: {
           len: {
             args: [3, 55],
-            msg: 'Campo nome deve ter entre 3 e 55 caracteres',
+            msg: 'Name must be between 3 to 55 letters',
+          },
+        },
+      },
+      lastname: {
+        type: Sequelize.STRING,
+        defaultValue: '',
+        validate: {
+          len: {
+            args: [3, 55],
+            msg: 'Last Name must be between 3 to 55 letters',
           },
         },
       },
       email: {
         type: Sequelize.STRING,
-        defaultValue: '',
         unique: {
-          msg: 'E-mail já existe',
+          msg: 'This email already exists.',
         },
         validate: {
           isEmail: {
-            msg: 'E-mail inválido',
+            msg: 'E-mail invalid.',
           },
         },
       },
@@ -35,16 +44,14 @@ export default class User extends Model {
         defaultValue: '',
         validate: {
           len: {
-            args: [6, 50],
-            msg: 'Campo senha deve ter entre 6 e 50 caracteres',
+            args: [6, 100],
+            msg: 'The password needs to be strong.',
           },
         },
       },
-    }, {
-      sequelize,
-    });
+    }, { sequelize });
 
-    this.addHook('beforeSave', async (user) => { // Estamos botando a senha para um hash
+    this.addHook('beforeSave', async (user) => {
       if (user.password) {
         user.password_hash = await bcryptjs.hash(user.password, 8);
       }
@@ -53,7 +60,9 @@ export default class User extends Model {
     return this;
   }
 
-  passwordIsValid(password) {
-    return bcryptjs.compare(password, this.password_hash);
+  isPasswordValid(password) {
+    const verifyHash = bcryptjs.compare(password, this.password_hash);
+    console.log(verifyHash);
+    return verifyHash;
   }
 }

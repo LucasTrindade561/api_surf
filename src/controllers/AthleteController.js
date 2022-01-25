@@ -1,120 +1,109 @@
-// import Athlete from '../models/Athlete';
-// import Foto from '../models/Foto';
+import Athlete from '../models/Athlete';
 
-// // athletes --> email nao vai precisar
-// class AthleteController {
-//   async index(req, res) {
-//     const alunos = await Athlete.findAll({ // athletes
-//       attributes: ['id', 'nome', 'sobrenome', 'email', 'idade', 'peso', 'altura'],
-//       order: [['id', 'DESC'], [Foto, 'id', 'DESC']],
-//       include: {
-//         model: Foto,
-//         attributes: ['url', 'filename'],
-//       },
-//     });
-//     res.json(alunos);
-//   }
+class AthleteController {
+  async index(req, res) {
+    try {
+      const athletes = await Athlete.findAll({
+        attributes: ['id', 'name', 'lastname', 'hometown', 'stance', 'aboutsurfer', 'age', 'weight', 'height'],
+      });
+      return res.json(athletes);
+    } catch (e) {
+      return res.json(null);
+    }
+  }
 
-//   async store(req, res) {
-//     try {
-//       const aluno = await Athlete.create(req.body);
+  async store(req, res) {
+    try {
+      const newAthlete = await Athlete.create(req.body);
+      return res.json(newAthlete);
+    } catch (e) {
+      return res.status(404).json({
+        errors: e.errors.map((err) => err.message),
+      });
+    }
+  }
 
-//       return res.json(aluno);
-//     } catch (e) {
-//       return res.status(404).json({
-//         errors: e.errors.map((err) => err.message),
-//       });
-//     }
-//   }
+  async show(req, res) {
+    try {
+      const { id } = req.params;
 
-//   async show(req, res) {
-//     try {
-//       const { id } = req.params;
+      if (!id) {
+        res.status(404).json({
+          errors: ['Missing ID'],
+        });
+      }
 
-//       if (!id) {
-//         return res.status(404).json({
-//           errors: ['Faltando ID'],
-//         });
-//       }
+      const athlete = await Athlete.findByPk(id, {
+        attributes: ['id', 'name', 'lastname', 'hometown', 'stance', 'aboutsurfer', 'age', 'weight', 'height'],
+      });
 
-//       const aluno = await Athlete.findByPk(id, {
-//         attributes: ['id', 'nome', 'sobrenome', 'email', 'idade', 'peso', 'altura'],
-//         order: [['id', 'DESC'], [Foto, 'id', 'DESC']],
-//         include: {
-//           model: Foto,
-//           attributes: ['url', 'filename'],
-//         },
-//       });
+      if (!athlete) {
+        res.status(404).json({
+          errors: ['There is no athlete.'],
+        });
+      }
 
-//       if (!aluno) {
-//         return res.status(404).json({
-//           errors: ['Estudante não existe'],
-//         });
-//       }
+      return res.json(athlete);
+    } catch (e) {
+      return res.status(404).json({
+        errors: e.errors.map((err) => err.message),
+      });
+    }
+  }
 
-//       return res.json(aluno);
-//     } catch (e) {
-//       return res.status(404).json({
-//         errors: e.errors.map((err) => err.message),
-//       });
-//     }
-//   }
+  async update(res, req) {
+    try {
+      const { id } = req.params;
 
-//   async delete(req, res) {
-//     try {
-//       const { id } = req.params;
+      if (!id) {
+        res.status(404).json({
+          errors: ['Missing ID'],
+        });
+      }
 
-//       if (!id) {
-//         return res.status(404).json({
-//           errors: ['Faltando ID'],
-//         });
-//       }
+      const athlete = await Athlete.findByPk(id);
+      if (!athlete) {
+        res.status(404).json({
+          errors: ['There is no athlete.'],
+        });
+      }
 
-//       const aluno = await Athlete.findByPk(id);
+      const athleteUpdate = await Athlete.update(req.body);
+      return res.json(athleteUpdate);
+    } catch (e) {
+      return res.status(404).json({
+        errors: e.errors.map((err) => err.message),
+      });
+    }
+  }
 
-//       if (!aluno) {
-//         return res.status(404).json({
-//           errors: ['Estudante não existe'],
-//         });
-//       }
+  async delete(req, res) {
+    try {
+      const { id } = req.params;
+      if (!id) {
+        res.status(404).json({
+          errors: ['Missing ID'],
+        });
+      }
 
-//       await aluno.destroy();
-//       return res.json({
-//         apagado: 'true',
-//       });
-//     } catch (e) {
-//       return res.status(404).json({
-//         errors: e.errors.map((err) => err.message),
-//       });
-//     }
-//   }
+      const athlete = await Athlete.findByPk(id);
+      if (!athlete) {
+        res.status(404).json({
+          errors: ['There is no athlete.'],
+        });
+      }
 
-//   async update(req, res) {
-//     try {
-//       const { id } = req.params;
+      await athlete.destroy();
 
-//       if (!id) {
-//         return res.status(404).json({
-//           errors: ['Faltando ID'],
-//         });
-//       }
+      return res.json({
+        deleted: 'true',
+      });
+    } catch (e) {
+      return res.status(404).json({
+        errors: e.errors.map((err) => err.message),
+      });
+    }
+  }
+}
 
-//       const aluno = await Athlete.findByPk(id);
-
-//       if (!aluno) {
-//         return res.status(404).json({
-//           errors: ['Estudante não existe'],
-//         });
-//       }
-
-//       const alunoAtualizado = await aluno.update(req.body);
-//       return res.json(alunoAtualizado);
-//     } catch (e) {
-//       return res.status(404).json({
-//         errors: e.errors.map((err) => err.message),
-//       });
-//     }
-//   }
-// }
-
-// export default new AthleteController();
+export default new AthleteController();

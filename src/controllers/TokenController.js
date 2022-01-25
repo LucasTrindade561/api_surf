@@ -7,31 +7,36 @@ class TokenController {
 
     if (!email || !password) {
       return res.status(401).json({
-        errors: ['Credenciais inválidas'],
+        errors: ['Invalid credentials.'],
       });
     }
 
     const user = await User.findOne({ where: { email } });
 
     if (!user) {
-      return res.status(401).json({
-        errors: ['Usuário não existe'],
+      return res.status(400).json({
+        errors: ['There is no user.'],
       });
     }
 
-    if (!(await user.passwordIsValid(password))) {
-      return res.status(401).json({
-        errors: ['Senha inválida'],
+    if (!(await user.isPasswordValid(password))) {
+      res.status(400).json({
+        errors: ['Password is invalid.'],
       });
     }
 
     const { id } = user;
-    // primeiro parametro = oq vai receber dps que fazer o token, segundo parametro = uma chave de seguranca, terceiro = configuracao do token
+
     const token = jwt.sign({ id, email }, process.env.TOKEN_SECRET, {
       expiresIn: process.env.TOKEN_EXPIRATION,
     });
 
-    return res.json({ token });
+    return res.json({
+      token,
+      user: {
+        name: user.name, lastname: user.lastname, id, email,
+      },
+    });
   }
 }
 
