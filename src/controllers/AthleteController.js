@@ -51,7 +51,7 @@ class AthleteController {
     }
   }
 
-  async update(res, req) {
+  async update(req, res) {
     try {
       const { id } = req.params;
 
@@ -68,8 +68,8 @@ class AthleteController {
         });
       }
 
-      const athleteUpdate = await Athlete.update(req.body);
-      return res.json(athleteUpdate);
+      const athleteUp = await athlete.update(req.body);
+      return res.json(athleteUp);
     } catch (e) {
       return res.status(404).json({
         errors: e.errors.map((err) => err.message),
