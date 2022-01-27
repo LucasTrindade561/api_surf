@@ -38,9 +38,9 @@ export default class Athlete extends Model {
         type: Sequelize.STRING,
         defaultValue: '',
         validate: {
-          len: {
-            isIn: ['goofy', 'regular'],
-            msg: 'This must be goofy or regular.',
+          isIn: {
+            args: ['goofy', 'regular'],
+            msg: 'This field must be goofy or regular.',
           },
         },
       },
