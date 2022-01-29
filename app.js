@@ -10,7 +10,7 @@ import homeRoutes from './src/routes/homeRoutes';
 import userRoutes from './src/routes/userRoutes';
 import tokenRoutes from './src/routes/tokenRoutes';
 import athletesRoutes from './src/routes/athletesRoutes';
-import fotoRoutes from './src/routes/fotoRoutes';
+import photoRoutes from './src/routes/photoRoutes';
 
 class App {
   constructor() {
@@ -30,7 +30,7 @@ class App {
     this.app.use('/users/', userRoutes);
     this.app.use('/tokens/', tokenRoutes);
     this.app.use('/athletes/', athletesRoutes);
-    this.app.use('/fotos/', fotoRoutes);
+    this.app.use('/photos/', photoRoutes);
   }
 }
 

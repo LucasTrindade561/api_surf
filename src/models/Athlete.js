@@ -1,6 +1,5 @@
 import Sequelize, { Model } from 'sequelize';
 
-// Vai ser Athletes
 export default class Athlete extends Model {
   static init(sequelize) {
     super.init({
@@ -27,19 +26,14 @@ export default class Athlete extends Model {
       hometown: {
         type: Sequelize.STRING,
         defaultValue: '',
-        validate: {
-          len: {
-            args: [1, 254],
-            msg: 'Hometown must be filled',
-          },
-        },
+        allowNull: false,
       },
       stance: {
         type: Sequelize.STRING,
         defaultValue: '',
         validate: {
           isIn: {
-            args: ['goofy', 'regular'],
+            args: [['goofy', 'regular']],
             msg: 'This field must be goofy or regular.',
           },
         },
@@ -65,7 +59,8 @@ export default class Athlete extends Model {
       },
       weight: {
         type: Sequelize.FLOAT,
-        defaultValue: '',
+        defaultValue: '0',
+        allowNull: false || true,
         validate: {
           isFloat: {
             msg: 'The weight must be integer number or float number.',
@@ -74,7 +69,8 @@ export default class Athlete extends Model {
       },
       height: {
         type: Sequelize.FLOAT,
-        defaultValue: '',
+        defaultValue: '0',
+        allowNull: false || true,
         validate: {
           isFloat: {
             msg: 'The height must be integer number or float number.',

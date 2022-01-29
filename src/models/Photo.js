@@ -1,7 +1,7 @@
 import Sequelize, { Model } from 'sequelize';
 import appConfig from '../config/appConfig';
 
-export default class Foto extends Model {
+export default class Photo extends Model {
   static init(sequelize) {
     super.init({
       originalname: {
@@ -9,7 +9,7 @@ export default class Foto extends Model {
         defaultValue: '',
         validate: {
           notEmpty: {
-            msg: 'Campo não pode ficar vazio.',
+            msg: 'This field cannot stay empty.',
           },
         },
       },
@@ -18,25 +18,24 @@ export default class Foto extends Model {
         defaultValue: '',
         validate: {
           notEmpty: {
-            msg: 'Campo não pode ficar vazio.',
+            msg: 'This field cannot stay empty.',
           },
         },
       },
       url: {
         type: Sequelize.VIRTUAL,
         get() {
-          return `${appConfig.url}/images/${this.getDataValue('filename')}`;
+          return `${appConfig}/images/${this.getDataValue('filename')}`;
         },
       },
     }, {
       sequelize,
-      tableName: 'fotos',
+      tableName: 'photos',
     });
     return this;
   }
 
   static associate(models) {
-    this.belongsTo(models.Aluno, { foreignKey: 'aluno_id' });
-    // this.hasOne(models.Foto, { foreignKey: 'aluno_id' }); --- seria se botassemos no aluno para referenciar
+    this.belongsTo(models.Athlete, { foreignKey: 'athlete_id' });
   }
 }

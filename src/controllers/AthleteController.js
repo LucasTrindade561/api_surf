@@ -1,10 +1,16 @@
 import Athlete from '../models/Athlete';
+import Photo from '../models/Photo';
 
 class AthleteController {
   async index(req, res) {
     try {
       const athletes = await Athlete.findAll({
         attributes: ['id', 'name', 'lastname', 'hometown', 'stance', 'aboutsurfer', 'age', 'weight', 'height'],
+        order: [['id', 'DESC'], [Photo, 'id', 'DESC']],
+        include: {
+          model: Photo,
+          attributes: ['url', 'filename'],
+        },
       });
       return res.json(athletes);
     } catch (e) {
