@@ -2,7 +2,7 @@ import multer from 'multer';
 import multerConfig from '../config/multerConfig';
 import Photo from '../models/Photo';
 
-const upload = multer(multerConfig).single('photo');
+const upload = multer(multerConfig).single('photos');
 
 class PhotoController {
   store(req, res) {
@@ -15,8 +15,8 @@ class PhotoController {
       try {
         const { originalname, filename } = req.file;
 
-        // eslint-disable-next-line camelcase
-        const { athlete_id } = req.body;
+        // eslint-disable-next-line no-unused-vars
+        const { athlete_id } = req.body; // eslint-disable-line camelcase
 
         const photo = await Photo.create({ originalname, filename, athlete_id });
         return res.json(photo);
