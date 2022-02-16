@@ -12,11 +12,11 @@ export default {
     return cb(null, true);
   },
   storage: multer.diskStorage({
-    destination: (req, file, cb) => { // onde vai ser salvo
+    destination: (req, file, cb) => {
       cb(null, resolve(__dirname, '..', '..', 'uploads', 'images'));
     },
-    filename: (req, file, cb) => { // nome do arquivo de foto
-      cb(null, `${Date.now()}_${random()}${extname(file.originalname)}`); // extname = vai pegar a extensao original do arquivo
+    filename: (req, file, cb) => {
+      cb(null, `${Date.now()}_${random()}${extname(file.originalname)}`);
     },
   }),
 };

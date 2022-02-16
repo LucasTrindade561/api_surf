@@ -83,7 +83,7 @@ export default class Athlete extends Model {
     return this;
   }
 
-  // static associate(models) {
-  //   // this.hasMany(models.Foto, { foreignKey: 'aluno_id' });
-  // }
+  static associate(models) {
+    this.hasMany(models.Photo, { foreignKey: 'athlete_id' });
+  }
 }
