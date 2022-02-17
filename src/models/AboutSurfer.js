@@ -15,11 +15,12 @@ export default class AboutSurfer extends Model {
       },
     }, {
       sequelize,
+      tableName: 'aboutsurfer',
     });
     return this;
   }
 
   static associate(models) {
-    this.belongsTo(models.Athlete, { foreignKey: 'athleteId' });
+    this.belongsTo(models.Athlete, { foreignKey: 'athlete_id' });
   }
 }

@@ -16,17 +16,17 @@ class AboutSurferController {
         const { aboutsurfer } = req.body;
 
         // eslint-disable-next-line no-unused-vars
-        const { athleteId } = req.body; // eslint-disable-line camelcase
+        const { athlete_id } = req.body; // eslint-disable-line camelcase
 
         // eslint-disable-next-line camelcase
-        if (!athleteId) {
+        if (!athlete_id) {
           return res.status(404).json(
-            console.log(aboutsurfer, athleteId),
+            console.log(aboutsurfer, athlete_id),
           );
         }
 
-        const newAboutSurfer = await AboutSurfer.create({ aboutsurfer, athleteId });
-        return res.json(newAboutSurfer, console.log(aboutsurfer, athleteId));
+        const newSurfer = await AboutSurfer.create({ aboutsurfer, athlete_id });
+        return res.json(newSurfer);
       } catch (e) {
         return res.status(400).json({
           errors: ['There is no athlete.'],

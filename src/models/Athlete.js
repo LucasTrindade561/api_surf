@@ -85,6 +85,6 @@ export default class Athlete extends Model {
 
   static associate(models) {
     this.hasMany(models.Photo, { foreignKey: 'athlete_id' });
-    this.hasMany(models.AboutSurfer, { foreignKey: 'athleteId' });
+    this.hasMany(models.AboutSurfer, { foreignKey: 'athlete_id' });
   }
 }
