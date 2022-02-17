@@ -38,16 +38,16 @@ export default class Athlete extends Model {
           },
         },
       },
-      aboutsurfer: {
-        type: Sequelize.STRING,
-        defaultValue: '',
-        validate: {
-          len: {
-            args: [5, 400],
-            msg: 'This field must be written.',
-          },
-        },
-      },
+      // aboutsurfer: {
+      //   type: Sequelize.STRING,
+      //   defaultValue: '',
+      //   validate: {
+      //     len: {
+      //       args: [5, 400],
+      //       msg: 'This field must be written.',
+      //     },
+      //   },
+      // },
       age: {
         type: Sequelize.INTEGER,
         defaultValue: '',
@@ -85,5 +85,6 @@ export default class Athlete extends Model {
 
   static associate(models) {
     this.hasMany(models.Photo, { foreignKey: 'athlete_id' });
+    this.hasMany(models.AboutSurfer, { foreignKey: 'athleteId' });
   }
 }

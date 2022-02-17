@@ -1,10 +1,11 @@
 import Athlete from '../models/Athlete';
 import Photo from '../models/Photo';
+// import AboutSurfer from '../models/AboutSurfer';
 
 class AthleteController {
   async index(req, res) {
     const athletes = await Athlete.findAll({
-      attributes: ['id', 'name', 'lastname', 'hometown', 'stance', 'aboutsurfer', 'age', 'weight', 'height'],
+      attributes: ['id', 'name', 'lastname', 'hometown', 'stance', 'age', 'weight', 'height'],
       order: [['id', 'DESC'], [Photo, 'id', 'DESC']],
       include: {
         model: Photo,
@@ -36,7 +37,7 @@ class AthleteController {
       }
 
       const athlete = await Athlete.findByPk(id, {
-        attributes: ['id', 'name', 'lastname', 'hometown', 'stance', 'aboutsurfer', 'age', 'weight', 'height'],
+        attributes: ['id', 'name', 'lastname', 'hometown', 'stance', 'age', 'weight', 'height'],
         order: [['id', 'DESC'], [Photo, 'id', 'DESC']],
         include: {
           model: Photo,

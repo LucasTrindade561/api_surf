@@ -20,6 +20,6 @@ export default class AboutSurfer extends Model {
   }
 
   static associate(models) {
-    this.belongsTo(models.Athlete, { foreignKey: 'athlete_id' });
+    this.belongsTo(models.Athlete, { foreignKey: 'athleteId' });
   }
 }

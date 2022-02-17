@@ -1,24 +1,38 @@
-import Athlete from '../models/Athlete';
+import multer from 'multer';
+import multerConfig from '../config/multerConfig';
+import AboutSurfer from '../models/AboutSurfer';
 
-class HomeController {
-  async index(req, res) {
-    try {
-      const newAthlete = await Athlete.create({
-        name: 'Lucas',
-        last_name: 'Trindade',
-        hometown: 'Novo Hamburgo',
-        stance: 'goofy',
-        about_surfer: 'He is too good',
-        age: 17,
-        height: 1.68,
-        weight: 68,
+const upload = multer(multerConfig).single('aboutsurfer');
 
-      });
-      res.json(newAthlete);
-    } catch (e) {
-      console.log(e);
-    }
+class AboutSurferController {
+  store(req, res) {
+    return upload(req, res, async (err) => {
+      if (err) {
+        return res.status(400).json({
+          errors: [err.code],
+        });
+      }
+      try {
+        const { aboutsurfer } = req.body;
+
+        // eslint-disable-next-line no-unused-vars
+        const { athleteId } = req.body; // eslint-disable-line camelcase
+
+        // eslint-disable-next-line camelcase
+        if (!athleteId) {
+          return res.status(404).json(
+            console.log(aboutsurfer, athleteId),
+          );
+        }
+
+        const newAboutSurfer = await AboutSurfer.create({ aboutsurfer, athleteId });
+        return res.json(newAboutSurfer, console.log(aboutsurfer, athleteId));
+      } catch (e) {
+        return res.status(400).json({
+          errors: ['There is no athlete.'],
+        });
+      }
+    });
   }
 }
-
-export default new HomeController();
+export default new AboutSurferController();

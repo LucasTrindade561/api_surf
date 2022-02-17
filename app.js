@@ -11,6 +11,7 @@ import userRoutes from './src/routes/userRoutes';
 import tokenRoutes from './src/routes/tokenRoutes';
 import athletesRoutes from './src/routes/athletesRoutes';
 import photoRoutes from './src/routes/photoRoutes';
+import aboutSurfer from './src/routes/aboutSurferRoutes';
 
 class App {
   constructor() {
@@ -31,6 +32,7 @@ class App {
     this.app.use('/tokens/', tokenRoutes);
     this.app.use('/athletes/', athletesRoutes);
     this.app.use('/photos/', photoRoutes);
+    this.app.use('/aboutsurfer/', aboutSurfer);
   }
 }
 
